@@ -1,0 +1,9 @@
+ticker: "FOUR"
+sector: "financials"
+eps_growth_0: 30.12
+eps_growth_1: 29.23
+eps_growth_2: 25.00
+eps_growth_3: null
+pe_fwd: 18.87
+peg_ratio_sector: 1.35
+price_current: null

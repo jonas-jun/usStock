@@ -1,0 +1,30 @@
+earnings:
+  function: "EARNINGS"
+  symbol: null
+
+ticker_search:
+  function: "SYMBOL_SEARCH"
+  keywords: null
+
+divend:
+  function: DIVIDENDS
+  symbol: null
+
+daily:
+  function: TIME_SERIES_DAILY
+  symbol: null
+  outputsize: "compact" # ["compact", "full"]
+
+weekly:
+  function: TIME_SERIES_WEEKLY
+  symbol: null
+
+monthly:
+  function: TIME_SERIES_MONTHLY
+  symbol: null
+
+news_senti:
+  function: "NEWS_SENTIMENT"
+  ticker: null
+  topics: null
+  limit: 50
