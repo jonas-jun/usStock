@@ -69,7 +69,7 @@ class getTargetPrice(object):
         if self.data.eps_growth_1 and self.data.eps_growth_2 and self.data.eps_growth_3:
             self.data.price_target_3 = self.data.price_reasonable * (
                 1
-                + self.data.eps_growth_1
-                + self.data.eps_growth_2
-                + self.data.eps_growth_3
+                + self.data.eps_growth_1 / 100
+                + self.data.eps_growth_2 / 100
+                + self.data.eps_growth_3 / 100
             )

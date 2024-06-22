@@ -11,3 +11,11 @@ def build_request_url(base: str, data: dict) -> str:
 def pprint_config(cfg: Config):
     for key, value in cfg.items():
         print(f"> {key}: {value}")
+
+
+def pprint_config_text(cfg: Config):
+    rst = str()
+    for key, value in cfg.items():
+        tmp = f"{key}: {value}\n"
+        rst += tmp
+    return rst
