@@ -31,7 +31,7 @@ eps_growth_2 = st.number_input("EPS 성장률(%) D+2: ")
 eps_growth_3 = st.number_input("EPS 성장률(%) D+3: ")
 
 st.divider()
-pe_fwd = st.number_input("P/E ratio (FWD): ", 0)
+pe_fwd = st.number_input("P/E ratio (FWD): ", 0.1)
 pe_fwd = float(pe_fwd)
 
 st.divider()
