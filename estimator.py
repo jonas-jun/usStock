@@ -1,5 +1,4 @@
 import yfinance as yf
-from utils import pprint_config
 import numpy as np
 
 
@@ -19,9 +18,6 @@ class getTargetPrice(object):
         self._calc_dec_from_52high()
         self._calc_reasonable_price()
         self._calc_target_prices()
-
-    def _pprint_data(self):
-        pprint_config(self.data)
 
     def _get_current_price(self):
         self.data.price_current = self.yf_data.info["regularMarketPreviousClose"]
