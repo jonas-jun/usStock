@@ -4,5 +4,5 @@ eps_growth_1: 29.31
 eps_growth_2: 11.41
 eps_growth_3: null
 pe_fwd: 19.30
-peg_peers: 1.0 # [0.88, 0.97, 1.77, 0.45] # for sector average peg ratio, List or value
+peg_peers: [0.88, 0.97, 1.77, 0.45] # for sector average peg ratio, List or value
 price_current: null
