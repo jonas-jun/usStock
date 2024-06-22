@@ -1,9 +1,8 @@
 ticker: "FOUR"
-sector: "financials"
-eps_growth_0: 30.12
-eps_growth_1: 29.23
-eps_growth_2: 25.00
+eps_growth_0: 29.27
+eps_growth_1: 29.31
+eps_growth_2: 11.41
 eps_growth_3: null
-pe_fwd: 18.87
-peg_ratio_sector: 1.35
+pe_fwd: 19.30
+peg_peers: 1.0 # [0.88, 0.97, 1.77, 0.45] # for sector average peg ratio, List or value
 price_current: null

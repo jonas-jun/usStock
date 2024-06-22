@@ -1,17 +1,18 @@
 import yfinance as yf
 from utils import pprint_config
-from sconf import Config
 import numpy as np
-import copy
 
 
-class calcTargetPrice(object):
+class getTargetPrice(object):
     def __init__(self, data):
         self.data = data
         self.yf_data = yf.Ticker(self.data.ticker)
         if not data.price_current:
             self._get_current_price()
         self._get_52high()
+
+    def calc_all(self):
+        self._calc_peg_peers()
         self._calc_eps_avg()
         self._calc_peg_ratio()
         self._calc_growth_value()
@@ -19,7 +20,7 @@ class calcTargetPrice(object):
         self._calc_reasonable_price()
         self._calc_target_prices()
 
-    def pprint_data(self):
+    def _pprint_data(self):
         pprint_config(self.data)
 
     def _get_current_price(self):
@@ -27,6 +28,10 @@ class calcTargetPrice(object):
 
     def _get_52high(self):
         self.data.price_52high = self.yf_data.info["fiftyTwoWeekHigh"]
+
+    def _calc_peg_peers(self):
+        if type(self.data.peg_peers) not in {float, int}:
+            self.data.peg_peers = np.mean(self.data.peg_peers).item()
 
     def _calc_eps_avg(self):
         val_eps_growth = list()
@@ -40,9 +45,7 @@ class calcTargetPrice(object):
 
     def _calc_growth_value(self):
         if self.data.eps_growth_avg > 0:
-            self.data.growth_value = (
-                self.data.eps_growth_avg * self.data.peg_ratio_sector
-            )
+            self.data.growth_value = self.data.eps_growth_avg * self.data.peg_peers
         else:
             self.data.growth_value = (
                 self.data.pe_fwd + (self.data.pe_fwd * self.data.eps_growth_avg)
@@ -74,15 +77,3 @@ class calcTargetPrice(object):
                 + self.data.eps_growth_2
                 + self.data.eps_growth_3
             )
-
-
-if __name__ == "__main__":
-    cfg = "format.yaml"
-    cfg = Config(cfg)
-    print(">> init data")
-    pprint_config(cfg)
-
-    data = copy.deepcopy(cfg)
-    print("\n\n>> Calculating...")
-    data = calcTargetPrice(data=data)
-    data.pprint_data()
