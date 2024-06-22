@@ -1,8 +1,8 @@
 import json
 import streamlit as st
 from sconf import Config
-from utils import pprint_config
 from estimator import getTargetPrice
+import time
 
 st.title("US Stock Target Price Estimator")
 msg_welcome = """
@@ -14,28 +14,30 @@ msg_welcome = """
 # st.markdown(msg_welcome)
 st.divider()
 
-ticker = st.text_input("Ticker: ")
+ticker = st.text_input("Ticker: ", "FOUR")
 ticker = ticker.upper()
 
 st.divider()
-price_current = st.text_input("현재 주가(USD) 입력하지 않으시면 자동으로 가져옵니다.")
+price_current = st.text_input("현재 주가(USD): 입력하지 않으시면 자동으로 가져옵니다.")
 
 st.divider()
-st.write("EPS 성장률 에측치 D+2부터는 비워두어도 괜찮습니다.")
+st.write("EPS 성장률 예측치: D+2부터는 비워두어도 괜찮습니다.")
 
-eps_growth_0 = st.number_input("EPS 성장률(%) D+0: ")
-eps_growth_1 = st.number_input("EPS 성장률(%) D+1: ")
-eps_growth_2 = st.number_input("EPS 성장률(%) D+2: ")
+eps_growth_0 = st.number_input("EPS 성장률(%) D+0: ", 29.27)
+eps_growth_1 = st.number_input("EPS 성장률(%) D+1: ", 29.31)
+eps_growth_2 = st.number_input("EPS 성장률(%) D+2: ", 11.41)
 eps_growth_3 = st.number_input("EPS 성장률(%) D+3: ")
 
 st.divider()
-pe_fwd = st.number_input("P/E ratio (FWD): ")
+pe_fwd = st.number_input("P/E ratio (FWD): ", 19.3)
 pe_fwd = float(pe_fwd)
 
 st.divider()
-peg_peers = st.text_input("Peer그룹의 PEG ratio를 쉼표로 구분하여 입력해주세요: ")
+peg_peers = st.text_input(
+    "Peer그룹의 PEG ratio를 쉼표로 구분하여 입력해주세요: ",
+    "0.88, 0.97, 1.77, 0.45",
+)
 peg_peers = list(map(float, peg_peers.split(",")))
-print(peg_peers)
 
 data_dic = dict()
 data_dic["ticker"] = ticker
@@ -52,12 +54,14 @@ st.divider()
 
 data_cfg = Config(data_dic)
 
-st.write("입력하신 데이터입니다.")
+st.write("입력된 데이터입니다.")
 st.json(json.dumps(data_dic), expanded=True)
 
-data = getTargetPrice(data=data_cfg)
-st.write("계산된 데이터입니다.")
-data.calc_all()
+with st.spinner("계산 중입니다..."):
+    data = getTargetPrice(data=data_cfg)
+    st.write("계산된 데이터입니다.")
+    data.calc_all()
+    time.sleep(2)
 
 rst = {
     "Current price": data.data.price_current,
@@ -73,3 +77,10 @@ if data.data.get("price_target_3"):
     rst["Target price D+3"] = round(data.data.price_target_3, 1)
 
 st.json(rst)
+
+st.divider()
+
+box = st.success if rst["Target price D+1"] > rst["Current price"] else st.error
+
+
+box(f"Target price fwd 1yr: {rst["Target price D+1"]} USD", icon=":material/attach_money:")
