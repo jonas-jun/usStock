@@ -18,18 +18,18 @@ ticker = st.text_input("Ticker: ", "FOUR")
 ticker = ticker.upper()
 
 st.divider()
-price_current = st.text_input("현재 주가(USD): 입력하지 않으시면 자동으로 가져옵니다.")
+price_current = st.number_input("현재 주가(USD): 입력하지 않으시면 자동으로 가져옵니다.")
 
 st.divider()
 st.write("EPS 성장률 예측치: D+2부터는 비워두어도 괜찮습니다.")
 
-eps_growth_0 = st.number_input("EPS 성장률(%) D+0: ", 29.27)
-eps_growth_1 = st.number_input("EPS 성장률(%) D+1: ", 29.31)
-eps_growth_2 = st.number_input("EPS 성장률(%) D+2: ", 11.41)
+eps_growth_0 = st.number_input("EPS 성장률(%) D+0: ")
+eps_growth_1 = st.number_input("EPS 성장률(%) D+1: ")
+eps_growth_2 = st.number_input("EPS 성장률(%) D+2: ")
 eps_growth_3 = st.number_input("EPS 성장률(%) D+3: ")
 
 st.divider()
-pe_fwd = st.number_input("P/E ratio (FWD): ", 19.3)
+pe_fwd = st.number_input("P/E ratio (FWD): ", 0)
 pe_fwd = float(pe_fwd)
 
 st.divider()
@@ -48,7 +48,7 @@ data_dic["eps_growth_2"] = eps_growth_2
 data_dic["eps_growth_3"] = eps_growth_3
 data_dic["pe_fwd"] = pe_fwd
 data_dic["peg_peers"] = peg_peers
-
+print(data_dic)
 
 st.divider()
 
