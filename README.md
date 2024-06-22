@@ -12,3 +12,8 @@
 ```bash
 python3 main.py -I format.yaml
 ```
+
+## streamlit
+```bash
+streamlit run streamlit_app.py
+```
