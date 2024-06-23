@@ -1,3 +1,4 @@
+task: "sales"
 ticker: "four"
 sales_growth_1: 41.69 # earnings > earnings estimates tab
 sales_growth_2: 28.43
