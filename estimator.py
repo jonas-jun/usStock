@@ -73,3 +73,67 @@ class getTargetPrice(object):
                 + self.data.eps_growth_2 / 100
                 + self.data.eps_growth_3 / 100
             )
+
+
+class getTargetPriceRevenue(getTargetPrice):
+    def calc_all(self):
+        self._calc_sales_avg()
+        self._calc_psg_ratio
+        self._calc_growth_value()
+        self._calc_discount_rate()
+        self._calc_growth_margin_value()
+        self._calc_dec_from_52high()
+        self._calc_target_price_growth()
+        self._calc_target_price()
+
+    def _calc_sales_avg(self):
+        val_sales_growth = list()
+        for key, value in self.data.items():
+            if "sales" in key and "avg" not in key and value:
+                val_sales_growth.append(value)
+        self.data.sales_growth_avg = np.mean(val_sales_growth)
+
+    def _calc_psg_ratio(self):
+        self.data.psg_ratio = self.data.ps_pwd / (100 * self.data.sales_growth_avg)
+
+    def _calc_growth_value(self):
+        if self.data.sales_growth_avg < 0:
+            self.data.growth_value = self.data.ps_fwd + (
+                self.data.ps_fwd * self.data.sales_growth_avg
+            )
+        else:
+            self.data.growth_value = (
+                100 * self.data.sales_growth_avg
+            ) * self.data.psg_ratio_sector
+        self.data.growth_value /= 100
+
+    def _calc_discount_rate(self):
+        if self.data.op_margin < self.data.op_margin_sector:
+            if self.data.op_margin < 0:
+                self.data.discount_rate = (
+                    self.data.op_margin + self.data.op_margin_sector
+                ) / 2
+            else:
+                self.data.discount_rate = (
+                    self.data.op_margin - self.data.op_margin_sector
+                ) / 2
+        else:
+            self.data.discount_rate = (
+                self.data.op_margin - self.data.op_margin_sector
+            ) / 2
+        self.data.discount_rate /= 100
+
+    def _calc_growth_margin_value(self):
+        self.data.growth_margin_value = self.data.growth_value + (
+            self.data.growth_value * self.data.discount_rate
+        )
+
+    def _calc_target_price_growth(self):
+        self.data.target_price_growth = (
+            self.data.price_current * self.data.growth_value / self.data.ps_fwd
+        )
+
+    def _calc_target_price(self):
+        self.data.target_price = (
+            self.data.price_current * self.data.growth_margin_value / self.data.ps_fwd
+        )
