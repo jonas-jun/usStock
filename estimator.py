@@ -78,7 +78,8 @@ class getTargetPrice(object):
 class getTargetPriceRevenue(getTargetPrice):
     def calc_all(self):
         self._calc_sales_avg()
-        self._calc_psg_ratio
+        self._calc_psg_ratio()
+        self._calc_psg_ratio_sector()
         self._calc_growth_value()
         self._calc_discount_rate()
         self._calc_growth_margin_value()
@@ -89,12 +90,15 @@ class getTargetPriceRevenue(getTargetPrice):
     def _calc_sales_avg(self):
         val_sales_growth = list()
         for key, value in self.data.items():
-            if "sales" in key and "avg" not in key and value:
+            if "sales" in key and "avg" not in key and "sector" not in key and value:
                 val_sales_growth.append(value)
         self.data.sales_growth_avg = np.mean(val_sales_growth)
 
     def _calc_psg_ratio(self):
-        self.data.psg_ratio = self.data.ps_pwd / (100 * self.data.sales_growth_avg)
+        self.data.psg_ratio = self.data.ps_fwd / (self.data.sales_growth_avg)
+
+    def _calc_psg_ratio_sector(self):
+        self.data.psg_ratio_sector = self.data.ps_sector / self.data.sales_growth_sector
 
     def _calc_growth_value(self):
         if self.data.sales_growth_avg < 0:
