@@ -17,3 +17,10 @@ python3 main.py -I format.yaml
 ```bash
 streamlit run streamlit_app.py
 ```
+
+## using sales version
+- use it for minus marginal corporations
+
+```bash
+python3 main_sales.py -I format_sales.yaml
+```
