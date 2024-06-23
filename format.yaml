@@ -1,3 +1,4 @@
+task: "eps"
 ticker: "FOUR"
 eps_growth_0: 29.27
 eps_growth_1: 29.31
