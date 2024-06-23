@@ -1,0 +1,11 @@
+ticker: "four"
+sales_growth_1: 41.69 # earnings > earnings estimates tab
+sales_growth_2: 28.43
+sales_growth_3: 16.21
+sales_growth_4:
+ps_fwd: 1.25 # earnings > earnings estimates tab
+op_margin: 3.69 # operating margin, 영업이익률, financials > as a % of revenue & quarterly
+op_margin_sector: 23.18 # profitablility > EBIT margin median 
+ps_sector: 2.48 # Valuation > price / sales (fwd)
+sales_growth_sector: 5.12 # Growth > revenue growth median, sector_psg_ratio = PSR / (sales growth * 100)
+price_current: 

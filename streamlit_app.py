@@ -8,10 +8,10 @@ st.title("US Stock Target Price Estimator")
 msg_welcome = """
 ---
 미국 주식의 적정 주가를 계산해보는 페이지입니다.\n
-<미주부: 미국 주식으로 부자되기>를 참고했습니다.\n
+현재 주가와 순이익의 성장성, 그리고 peer group의 valuation을 반영하여 계산합니다.\n
 다음 항목들을 찾아 입력해주세요.
 """
-# st.markdown(msg_welcome)
+st.markdown(msg_welcome)
 st.divider()
 
 ticker = st.text_input("Ticker: ", "FOUR")
