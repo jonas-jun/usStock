@@ -1,12 +1,12 @@
 task: "sales"
-ticker: "four"
-sales_growth_1: 41.69 # earnings > earnings estimates tab
-sales_growth_2: 28.43
-sales_growth_3: 16.21
+ticker: "PDD"
+sales_growth_1: 65.83 # earnings > earnings estimates tab
+sales_growth_2: 27.48
+sales_growth_3: 20.92
 sales_growth_4:
-ps_fwd: 1.25 # earnings > earnings estimates tab
-op_margin: 3.69 # operating margin, 영업이익률, financials > as a % of revenue & quarterly
-op_margin_sector: 23.18 # profitablility > EBIT margin median 
-ps_sector: 2.48 # Valuation > price / sales (fwd)
-sales_growth_sector: 5.12 # Growth > revenue growth median, sector_psg_ratio = PSR / (sales growth * 100)
+ps_fwd: 3.5 # earnings > earnings estimates tab
+op_margin: 26.19 # operating margin, 영업이익률, financials > as a % of revenue & quarterly
+op_margin_sector: 7.81 # profitablility > EBIT margin median 
+ps_sector: 0.87 # Valuation > price / sales (fwd)
+sales_growth_sector: 3.51 # Growth > revenue growth median, sector_psg_ratio = PSR / (sales growth * 100)
 price_current: 

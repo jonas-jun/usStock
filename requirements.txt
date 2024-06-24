@@ -4,3 +4,4 @@ ruamel-yaml==0.18.6
 ruamel-yaml-clib==0.2.8
 sconf==0.2.5
 yfinance==0.2.40
+tqdm==4.66.4
