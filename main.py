@@ -34,7 +34,8 @@ if __name__ == "__main__":
     # exporting
     now = datetime.now()
     data.data["date"] = now.strftime("%y%m%d-%a-%H:%M")
-    if os.path.exists(args.out_path):
-        append_jsonl(data=data.data, path=args.out_path)
-    else:
-        export_jsonl(data=data.data, path=args.out_path)
+    if args.out_path:
+        if os.path.exists(args.out_path):
+            append_jsonl(data=data.data, path=args.out_path)
+        else:
+            export_jsonl(data=data.data, path=args.out_path)
