@@ -4,32 +4,63 @@ import matplotlib.pyplot as plt
 
 
 class makeChart(object):
-    def __init__(self, ticker, period, export):
+    def __init__(self, ticker, period, export=False, message=None):
         self.ticker = ticker
         self.data = yf.Ticker(ticker)
         self.period = period
         self.export = export
+        self.message = message
         self._get_history()
 
     def get_chart(self):
-        plt.figure(figsize=(10, 6))
+        plt.figure(figsize=(12, 8))
         plt.title(f"Stock Chart: {self.ticker}")
         plt.xlabel("date")
         plt.ylabel("price")
         plt.grid(True)
-        plt.plot(self.history["Close"])
+        plt.plot(self.history["Close"], color="black")
         self._get_values()
-        cfg_bbox = {"boxstyle": "round,pad=0.3", "fc":"lightsteelblue", "alpha": 0.5}
-        plt.annotate(f"LAST: {self.values["last"][1]}", xy=(self.values["last"]), bbox=cfg_bbox)
-        plt.annotate(f"MIN\nvalue: {self.values["min"][1]:.2f}\ndate: {self.values["min"][0].date().isoformat()}",
-                     xy=self.values["min"],
-                     xytext=(self.values["min"][0], self.values["min"][1]+5),
-                     arrowprops={"arrowstyle":"simple", "color":"salmon"},
-                     bbox=cfg_bbox)
-        # boxstyle="round,pad=0.3", fc="lightsteelblue", ec="black", lw=1, alpha=0.3)
-        # plt.annotate(f'max: {max_value:.2f}', xy=(max_date, max_value), xytext=(max_date, max_value-100),
-        #          arrowprops=dict(arrowstyle="simple", color='red'),
-        #          ha='center')
+        cfg_bbox = {"boxstyle": "round,pad=0.3", "fc": "lightsteelblue", "alpha": 0.5}
+        cfg_arrowprops = {
+            "arrowstyle": "->",
+            "color": "salmon",
+        }  # ['->', '-|>', '<->', 'fancy', 'simple']
+        plt.annotate(
+            f'LAST: ${self.values["last"][1]:.2f}',
+            xy=(self.values["last"]),
+            # xytext=(self.values["last"][0] + timedelta(days=5), self.values["last"][1]),
+            xytext=(10, 0),
+            textcoords="offset points",
+            bbox=cfg_bbox,
+            color="darkviolet",
+            fontweight="bold",
+        )
+        plt.annotate(
+            f'MIN\nvalue: ${self.values["min"][1]:.2f}\ndate: {self.values["min"][0].date().isoformat()}',
+            xy=self.values["min"],
+            xytext=(-100, 0),
+            textcoords="offset points",
+            arrowprops=cfg_arrowprops,
+            bbox=cfg_bbox,
+        )
+        plt.annotate(
+            f'MAX\nvalue: ${self.values["max"][1]:.2f}\ndate: {self.values["max"][0].date().isoformat()}',
+            xy=self.values["max"],
+            xytext=(-100, 0),
+            textcoords="offset points",
+            arrowprops=cfg_arrowprops,
+            bbox=cfg_bbox,
+        )
+        if self.message:
+            plt.figtext(
+                0.8,
+                0.05,
+                self.message,
+                ha="center",
+                fontsize=12,
+                fontweight="bold",
+                color="darkred",
+            )
         if self.export:
             self._export_image(path=self.export)
         plt.show()
@@ -41,9 +72,9 @@ class makeChart(object):
         df = self.history
         col = "Close"
         rst = dict()
-        rst["max"] = (df[col].idxmax(), df[col].max()) # (date, value)
+        rst["max"] = (df[col].idxmax(), df[col].max())  # (date, value)
         rst["min"] = (df[col].idxmin(), df[col].min())
-        rst["last"] = (df.index[-1], df[col].iloc[-1])        
+        rst["last"] = (df.index[-1], df[col].iloc[-1])
         self.values = rst
 
     def _export_image(self, path):
@@ -52,12 +83,12 @@ class makeChart(object):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="stock chart getter")
-    parser.add_argument("--ticker", "-T", type=str, default="xlv")
+    parser.add_argument("--ticker", "-T", type=str, default="LLY")
     parser.add_argument(
         "--period",
         "-P",
         type=str,
-        default="2y",
+        default="ytd",
         help="['1d', '5d', '1mo', '3mo', '6mo', '1y', '2y', '5y', '10y', 'ytd', 'max']",
     )
     parser.add_argument(
