@@ -38,7 +38,7 @@ class makeChart(object):
         plt.annotate(
             f'MIN\nvalue: ${self.values["min"][1]:.2f}\ndate: {self.values["min"][0].date().isoformat()}',
             xy=self.values["min"],
-            xytext=(-100, 0),
+            xytext=(-100, 20),
             textcoords="offset points",
             arrowprops=cfg_arrowprops,
             bbox=cfg_bbox,
@@ -46,7 +46,7 @@ class makeChart(object):
         plt.annotate(
             f'MAX\nvalue: ${self.values["max"][1]:.2f}\ndate: {self.values["max"][0].date().isoformat()}',
             xy=self.values["max"],
-            xytext=(-100, 0),
+            xytext=(-100, -20),
             textcoords="offset points",
             arrowprops=cfg_arrowprops,
             bbox=cfg_bbox,
