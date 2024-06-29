@@ -36,3 +36,9 @@ python3 main.py -I format_sales.yaml -O result_sales.jsonl
 ```bash
 streamlit run streamlit_app.py
 ```
+
+# Chart getter
+```bash
+python3 charter.py -T tsla -P ytd -E chart_tsla.jpg
+```
+- period: ['1d', '5d', '1mo', '3mo', '6mo', '1y', '2y', '5y', '10y', 'ytd', 'max']

@@ -18,9 +18,7 @@ ticker = st.text_input("Ticker: ", "FOUR")
 ticker = ticker.upper()
 
 st.divider()
-price_current = st.number_input(
-    "현재 주가(USD): 입력하지 않으시면 자동으로 가져옵니다."
-)
+price_current = st.number_input("현재 주가(USD): 입력하지 않으시면 자동으로 가져옵니다.")
 
 st.divider()
 st.write("EPS 성장률 예측치: D+2부터는 비워두어도 괜찮습니다.")
