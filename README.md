@@ -4,7 +4,7 @@
 
 ### EPS version
 - for in the blacks (plus eps)
-- format.yaml
+- inputs/format_eps.yaml
 - eps_growth_0: earnings > earnings estimates
 - pe_fwd: earnings > earnings estimates
 - peg_peers: peers
@@ -15,7 +15,7 @@
 
 ### Sales version
 - for in the reds (minus eps)
-- format_sales.yaml
+- inputs/format_sales.yaml
 - sales_growth: earnings > earnings estimates
 - ps_fwd: earnings > earnings estimates
 - op_margin: fincancials > as a % of revenue, quarterly or profitability > EBIT margin
@@ -26,9 +26,9 @@
 
 ## run
 ```bash
-python3 main.py -I format.yaml # not save result case
-python3 main.py -I format.yaml -O result_eps.jsonl # save result case
-python3 main.py -I format_sales.yaml -O result_sales.jsonl
+python3 main.py -I inputs/format_eps.yaml # not save result case
+python3 main.py -I inputs/format_eps.yaml -O result_eps.jsonl # save result case
+python3 main.py -I inputs/format_sales.yaml -O result_sales.jsonl
 ```
 
 ## streamlit

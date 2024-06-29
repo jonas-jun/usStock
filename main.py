@@ -9,7 +9,9 @@ from charter import makeChart
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="usStock target price estimator")
-    parser.add_argument("--input_path", "-I", type=str, default="format.yaml")
+    parser.add_argument(
+        "--input_path", "-I", type=str, default="inputs/format_eps.yaml"
+    )
     parser.add_argument("--out_path", "-O", type=str, default=None)
     args = parser.parse_args()
 
