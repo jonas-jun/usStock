@@ -5,3 +5,4 @@ ruamel-yaml-clib==0.2.8
 sconf==0.2.5
 yfinance==0.2.40
 tqdm==4.66.4
+matplotlib==3.9.0

@@ -59,7 +59,7 @@ class getTargetPrice(object):
 
     def _calc_target_prices(self):
         if self.data.eps_growth_1:
-            self.data.price_target_1 = self.data.price_reasonable * (
+            self.data.price_target = self.data.price_reasonable * (
                 1 + self.data.eps_growth_1 / 100
             )
         if self.data.eps_growth_1 and self.data.eps_growth_2:
@@ -133,11 +133,11 @@ class getTargetPriceRevenue(getTargetPrice):
         )
 
     def _calc_target_price_growth(self):
-        self.data.target_price_growth = (
+        self.data.price_target_growth = (
             self.data.price_current * self.data.growth_value / self.data.ps_fwd
         )
 
     def _calc_target_price(self):
-        self.data.target_price = (
+        self.data.price_target = (
             self.data.price_current * self.data.growth_margin_value / self.data.ps_fwd
         )
