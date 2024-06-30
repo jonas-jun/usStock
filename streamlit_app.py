@@ -64,7 +64,7 @@ with st.spinner("계산 중입니다..."):
     data = getTargetPrice(data=data_cfg)
     # st.write("계산된 데이터입니다.")
     data.calc_all()
-    time.sleep(2)
+    time.sleep(1.5)
 
 if data.data.get("price_target"):
     st.write("계산된 데이터입니다.")
