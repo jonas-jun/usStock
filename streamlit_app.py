@@ -62,40 +62,47 @@ st.json(json.dumps(data_dic), expanded=True)
 
 with st.spinner("계산 중입니다..."):
     data = getTargetPrice(data=data_cfg)
-    st.write("계산된 데이터입니다.")
+    # st.write("계산된 데이터입니다.")
     data.calc_all()
     time.sleep(2)
 
-rst = {
-    "Current price": data.data.price_current,
-    "Average EPS growth": round(data.data.eps_growth_avg, 2),
-    "PEG ratio": round(data.data.peg_ratio, 2),
-    "Growth value": round(data.data.growth_value, 2),
-    "Reasonable price": round(data.data.price_reasonable, 1),
-    "Target price D+1": round(data.data.price_target, 1),
-}
-if data.data.get("price_target_2"):
-    rst["Target price D+2"] = round(data.data.price_target_2, 1)
-if data.data.get("price_target_3"):
-    rst["Target price D+3"] = round(data.data.price_target_3, 1)
+if data.data.get("price_target"):
+    st.write("계산된 데이터입니다.")
+    rst = {
+        "Current price": data.data.price_current,
+        "Average EPS growth": round(data.data.eps_growth_avg, 2),
+        "PEG ratio": round(data.data.peg_ratio, 2),
+        "Growth value": round(data.data.growth_value, 2),
+        "Reasonable price": round(data.data.price_reasonable, 1),
+        "Target price D+1": round(data.data.price_target, 1),
+    }
+    if data.data.get("price_target_2"):
+        rst["Target price D+2"] = round(data.data.price_target_2, 1)
+    if data.data.get("price_target_3"):
+        rst["Target price D+3"] = round(data.data.price_target_3, 1)
 
-st.json(rst)
+    # json_empty = st.empty()
+    # if data.data.get("price_target"):
+    #     json_empty.json(rst)
+    st.json(rst)
 
-st.divider()
+    st.divider()
 
-box = st.success if rst["Target price D+1"] > rst["Current price"] else st.error
+    box = st.success if rst["Target price D+1"] > rst["Current price"] else st.error
 
+    box(
+        f"Target price fwd 1yr: {round(data.data.price_target)} USD",
+        icon=":material/attach_money:",
+    )
 
-box(
-    f"Target price fwd 1yr: {round(data.data.price_target)} USD",
-    icon=":material/attach_money:",
-)
+    st.divider()
 
-st.divider()
+    chart = makeChart(
+        ticker=data.data.ticker.upper(),
+        period="1y",
+        message="target price 1yr: ${:,.2f}".format(data.data.price_target),
+    )
+    chart.get_chart_st()
 
-chart = makeChart(
-    ticker=data.data.ticker.upper(),
-    period="1y",
-    message="target price 1yr: ${:,.2f}".format(data.data.price_target),
-)
-chart.get_chart_st()
+else:
+    st.write("계산을 위한 데이터가 부족합니다.")
