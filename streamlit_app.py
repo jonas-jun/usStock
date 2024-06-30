@@ -2,6 +2,7 @@ import json
 import streamlit as st
 from sconf import Config
 from estimator import getTargetPrice
+from charter import makeChart
 import time
 
 st.title("US Stock Target Price Estimator")
@@ -18,7 +19,9 @@ ticker = st.text_input("Ticker: ", "FOUR")
 ticker = ticker.upper()
 
 st.divider()
-price_current = st.number_input("현재 주가(USD): 입력하지 않으시면 자동으로 가져옵니다.")
+price_current = st.number_input(
+    "현재 주가(USD): 입력하지 않으시면 자동으로 가져옵니다."
+)
 
 st.divider()
 st.write("EPS 성장률 예측치: D+2부터는 비워두어도 괜찮습니다.")
@@ -69,7 +72,7 @@ rst = {
     "PEG ratio": round(data.data.peg_ratio, 2),
     "Growth value": round(data.data.growth_value, 2),
     "Reasonable price": round(data.data.price_reasonable, 1),
-    "Target price D+1": round(data.data.price_target_1, 1),
+    "Target price D+1": round(data.data.price_target, 1),
 }
 if data.data.get("price_target_2"):
     rst["Target price D+2"] = round(data.data.price_target_2, 1)
@@ -84,6 +87,15 @@ box = st.success if rst["Target price D+1"] > rst["Current price"] else st.error
 
 
 box(
-    f"Target price fwd 1yr: {round(data.data.price_target_1)} USD",
+    f"Target price fwd 1yr: {round(data.data.price_target)} USD",
     icon=":material/attach_money:",
 )
+
+st.divider()
+
+chart = makeChart(
+    ticker=data.data.ticker.upper(),
+    period="1y",
+    message="target price 1yr: ${:,.2f}".format(data.data.price_target),
+)
+chart.get_chart_st()

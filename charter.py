@@ -1,6 +1,7 @@
 import argparse
 import yfinance as yf
 import matplotlib.pyplot as plt
+import streamlit as st
 
 
 class makeChart(object):
@@ -79,6 +80,60 @@ class makeChart(object):
 
     def _export_image(self, path):
         plt.savefig(path)
+
+    def get_chart_st(self):
+        plt.figure(figsize=(12, 8))
+        plt.title(f"Stock Chart: {self.ticker}")
+        plt.xlabel("date")
+        plt.ylabel("price")
+        plt.grid(True)
+        plt.plot(self.history["Close"], color="black")
+        self._get_values()
+        cfg_bbox = {"boxstyle": "round,pad=0.3", "fc": "lightsteelblue", "alpha": 0.5}
+        cfg_arrowprops = {
+            "arrowstyle": "->",
+            "color": "salmon",
+        }  # ['->', '-|>', '<->', 'fancy', 'simple']
+        plt.annotate(
+            f'LAST: ${self.values["last"][1]:.2f}',
+            xy=(self.values["last"]),
+            # xytext=(self.values["last"][0] + timedelta(days=5), self.values["last"][1]),
+            xytext=(10, 0),
+            textcoords="offset points",
+            bbox=cfg_bbox,
+            color="darkviolet",
+            fontweight="bold",
+        )
+        plt.annotate(
+            f'MIN\nvalue: ${self.values["min"][1]:.2f}\ndate: {self.values["min"][0].date().isoformat()}',
+            xy=self.values["min"],
+            xytext=(-100, 20),
+            textcoords="offset points",
+            arrowprops=cfg_arrowprops,
+            bbox=cfg_bbox,
+        )
+        plt.annotate(
+            f'MAX\nvalue: ${self.values["max"][1]:.2f}\ndate: {self.values["max"][0].date().isoformat()}',
+            xy=self.values["max"],
+            xytext=(-100, -20),
+            textcoords="offset points",
+            arrowprops=cfg_arrowprops,
+            bbox=cfg_bbox,
+        )
+        if self.message:
+            plt.figtext(
+                0.8,
+                0.05,
+                self.message,
+                ha="center",
+                fontsize=12,
+                fontweight="bold",
+                color="darkred",
+            )
+        if self.export:
+            self._export_image(path=self.export)
+        # plt.show()
+        st.pyplot(plt, use_container_width=True)
 
 
 if __name__ == "__main__":
