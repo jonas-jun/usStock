@@ -13,6 +13,7 @@ if __name__ == "__main__":
         "--input_path", "-I", type=str, default="inputs/format_eps.yaml"
     )
     parser.add_argument("--out_path", "-O", type=str, default=None)
+    parser.add_argument("--out_img", "-IMG", type=str, default=None)
     args = parser.parse_args()
 
     # load format file
@@ -47,6 +48,7 @@ if __name__ == "__main__":
     chart = makeChart(
         ticker=cfg.ticker,
         period="1y",
+        export=args.out_img,
         message="target price 1yr: ${:.2f}".format(data.data.price_target),
     )
     chart.get_chart()
