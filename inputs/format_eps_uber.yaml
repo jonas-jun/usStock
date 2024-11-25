@@ -1,0 +1,9 @@
+task: "eps"
+ticker: "UBER"
+eps_growth_0: 111.33 # earnings > earnings estimates
+eps_growth_1: 24.25
+eps_growth_2: 41.46
+eps_growth_3: null
+pe_fwd: 37.6
+peg_peers: [1.95] # for sector average peg ratio, List or value
+price_current: null

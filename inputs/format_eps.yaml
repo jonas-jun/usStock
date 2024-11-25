@@ -1,9 +1,9 @@
 task: "eps"
-ticker: "PDD"
-eps_growth_0: 82.06 # earnings > earnings estimates
-eps_growth_1: 25.00
-eps_growth_2: 22.13
+ticker: "VIST"
+eps_growth_0: 11.43 # earnings > earnings estimates
+eps_growth_1: 12.05
+eps_growth_2: 15.07
 eps_growth_3: null
-pe_fwd: 12.23
-peg_peers: [0.92, 1.71, 0.47] # for sector average peg ratio, List or value
+pe_fwd: 8.53
+peg_peers: [1.72] # for sector average peg ratio, List or value
 price_current: null

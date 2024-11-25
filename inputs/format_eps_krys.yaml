@@ -1,0 +1,9 @@
+task: "eps"
+ticker: "KRYS"
+eps_growth_0: 110.54 # earnings > earnings estimates
+eps_growth_1: 52.77
+eps_growth_2: 31.89
+eps_growth_3: null
+pe_fwd: 63.52
+peg_peers: [0.95] # for sector average peg ratio, List or value
+price_current: null
