@@ -1,14 +1,37 @@
 import yfinance as yf
 import numpy as np
+import time
+from yfinance.exceptions import YFRateLimitError
+
+
+def retry_on_rate_limit(func, max_retries=3, base_delay=5):
+    """Rate limit 에러 발생 시 exponential backoff로 재시도"""
+    def wrapper(*args, **kwargs):
+        for attempt in range(max_retries):
+            try:
+                return func(*args, **kwargs)
+            except YFRateLimitError:
+                if attempt < max_retries - 1:
+                    delay = base_delay * (2 ** attempt)  # 5, 10, 20초
+                    print(f"Rate limited. {delay}초 후 재시도... ({attempt + 1}/{max_retries})")
+                    time.sleep(delay)
+                else:
+                    raise
+    return wrapper
 
 
 class getTargetPrice(object):
-    def __init__(self, data):
+    def __init__(self, data, yf_ticker=None):
         self.data = data
-        self.yf_data = yf.Ticker(self.data.ticker)
+        self.yf_data = yf_ticker or yf.Ticker(self.data.ticker)
+        self._fetch_yf_info()
         if not data.price_current:
             self._get_current_price()
         self._get_52high()
+
+    @retry_on_rate_limit
+    def _fetch_yf_info(self):
+        self._yf_info = self.yf_data.info
 
     def calc_all(self):
         self._calc_peg_peers()
@@ -20,10 +43,10 @@ class getTargetPrice(object):
         self._calc_target_prices()
 
     def _get_current_price(self):
-        self.data.price_current = self.yf_data.info["regularMarketPreviousClose"]
+        self.data.price_current = self._yf_info["regularMarketPreviousClose"]
 
     def _get_52high(self):
-        self.data.price_52high = self.yf_data.info["fiftyTwoWeekHigh"]
+        self.data.price_52high = self._yf_info["fiftyTwoWeekHigh"]
 
     def _calc_peg_peers(self):
         if type(self.data.peg_peers) not in {float, int}:

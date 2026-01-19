@@ -5,9 +5,9 @@ import streamlit as st
 
 
 class makeChart(object):
-    def __init__(self, ticker, period, export=False, message=None):
+    def __init__(self, ticker, period, export=False, message=None, yf_ticker=None):
         self.ticker = ticker
-        self.data = yf.Ticker(ticker)
+        self.data = yf_ticker or yf.Ticker(ticker)
         self.period = period
         self.export = export
         self.message = message
