@@ -3,6 +3,7 @@ import copy
 from datetime import datetime
 from sconf import Config
 import argparse
+import yfinance as yf
 from utils import pprint_config, append_jsonl, export_jsonl
 from estimator import getTargetPrice, getTargetPriceRevenue
 from charter import makeChart
@@ -22,13 +23,16 @@ if __name__ == "__main__":
     pprint_config(cfg)
     data = copy.deepcopy(cfg)
 
+    # yfinance 데이터 한 번만 로드
+    yf_ticker = yf.Ticker(cfg.ticker)
+
     # build estimator
     task = data.task.lower()
     assert task in {"eps", "sales"}
     if task == "eps":
-        data = getTargetPrice(data=data)
+        data = getTargetPrice(data=data, yf_ticker=yf_ticker)
     else:
-        data = getTargetPriceRevenue(data=data)
+        data = getTargetPriceRevenue(data=data, yf_ticker=yf_ticker)
 
     # estimating
     print("\n\n>> Calculating...")
@@ -50,5 +54,6 @@ if __name__ == "__main__":
         period="1y",
         export=args.out_img,
         message="target price 1yr: ${:.2f}".format(data.data.price_target),
+        yf_ticker=yf_ticker,
     )
     chart.get_chart()
